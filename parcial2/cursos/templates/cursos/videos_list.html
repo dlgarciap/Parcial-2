@@ -1,53 +1,26 @@
 {% extends 'cursos/base.html' %}
-{% load static %}
-{% block title %}Videos — CursosPro{% endblock %}
-
+{% block title %}Videos — CursosOnline{% endblock %}
 {% block content %}
-<link href="{% static 'cursos/css/pricing.css' %}" rel="stylesheet">
-
-<div class="text-center mb-4">
-  <h1 class="display-6">Nuestros Videos</h1>
-  <p class="text-muted">Elige una lección y comienza a aprender ahora</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Videos</h1>
+  <a class="btn btn-primary" href="{% url 'cursos:video_create' %}">Nuevo video</a>
 </div>
 
-<div class="row justify-content-center">
+<div class="row">
   {% for v in videos %}
-  <div class="col-sm-10 col-md-6 col-lg-4 mb-4">
-    <div class="card pricing-card h-100 text-center shadow-sm">
-      <div class="card-header bg-transparent">
-        <h5 class="mb-0">{{ v.title|truncatechars:40 }}</h5>
-      </div>
-
+  <div class="col-md-6 mb-3">
+    <div class="card shadow-sm">
       <div class="card-body">
-        <!-- duración grande a la izquierda o centrada -->
-        <div class="price-display mb-3">
-          <span class="price-amount">{{ v.duration_minutes|default:"--" }}</span>
-          <span class="price-unit">min</span>
-        </div>
-
-        <ul class="list-unstyled text-muted small mb-4">
-          <li><strong>Instructor:</strong> {{ v.instructor|default:"N/A" }}</li>
-          <li>{{ v.description|truncatechars:80 }}</li>
-        </ul>
-
-        <a href="{{ v.get_absolute_url }}" class="btn btn-outline-primary btn-block mb-2">Ver Detalle</a>
-        <a href="{{ v.video_url }}" target="_blank" class="btn btn-primary btn-block">Reproducir</a>
-      </div>
-
-      <div class="card-footer bg-white">
-        {% if v.average_rating %}
-          <span class="rating-sm">{{ v.average_rating }} ★</span>
-          <small class="text-muted"> ({{ v.ratings.count }})</small>
-        {% else %}
-          <small class="text-muted">Sin calificaciones</small>
-        {% endif %}
+        <h5 class="card-title">{{ v.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ v.instructor }} • {{ v.duration_minutes }} min</h6>
+        <p class="card-text">{{ v.description|truncatechars:140 }}</p>
+        <a href="{{ v.video_url }}" target="_blank" class="btn btn-outline-primary btn-sm">Abrir video</a>
+        <a href="{% url 'cursos:video_edit' v.slug %}" class="btn btn-outline-secondary btn-sm">Editar</a>
       </div>
     </div>
   </div>
   {% empty %}
-  <div class="col-12">
-    <p class="text-center text-muted">No hay videos disponibles. Agrega uno nuevo.</p>
-  </div>
+    <p class="text-muted">No hay videos aún.</p>
   {% endfor %}
 </div>
 {% endblock %}

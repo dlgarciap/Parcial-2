@@ -49,3 +49,4 @@ class Video(models.Model):
 
     def get_absolute_url(self):
         return reverse('cursos:videos_list')
+
