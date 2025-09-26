@@ -1,0 +1,14 @@
+{% extends 'cursos/base.html' %}
+{% block title %}{% if object %}Editar usuario{% else %}Nuevo usuario{% endif %}{% endblock %}
+{% block content %}
+<h2>{% if object %}Editar usuario{% else %}Nuevo usuario{% endif %}</h2>
+<form method="post" class="card p-4 shadow-sm">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">{{ form.full_name.label_tag }} {{ form.full_name }} {{ form.full_name.errors }}</div>
+  <div class="mb-3">{{ form.email.label_tag }} {{ form.email }} {{ form.email.errors }}</div>
+  <div class="mb-3">{{ form.phone.label_tag }} {{ form.phone }} {{ form.phone.errors }}</div>
+  <button class="btn btn-success" type="submit">Guardar</button>
+  <a class="btn btn-secondary" href="{% url 'cursos:users_list' %}">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'cursos/base.html' %}
+{% load static %}
+{% block title %}Videos — CursosPro{% endblock %}
+
+{% block content %}
+<link href="{% static 'cursos/css/pricing.css' %}" rel="stylesheet">
+
+<div class="text-center mb-4">
+  <h1 class="display-6">Nuestros Videos</h1>
+  <p class="text-muted">Elige una lección y comienza a aprender ahora</p>
+</div>
+
+<div class="row justify-content-center">
+  {% for v in videos %}
+  <div class="col-sm-10 col-md-6 col-lg-4 mb-4">
+    <div class="card pricing-card h-100 text-center shadow-sm">
+      <div class="card-header bg-transparent">
+        <h5 class="mb-0">{{ v.title|truncatechars:40 }}</h5>
+      </div>
+
+      <div class="card-body">
+        <!-- duración grande a la izquierda o centrada -->
+        <div class="price-display mb-3">
+          <span class="price-amount">{{ v.duration_minutes|default:"--" }}</span>
+          <span class="price-unit">min</span>
+        </div>
+
+        <ul class="list-unstyled text-muted small mb-4">
+          <li><strong>Instructor:</strong> {{ v.instructor|default:"N/A" }}</li>
+          <li>{{ v.description|truncatechars:80 }}</li>
+        </ul>
+
+        <a href="{{ v.get_absolute_url }}" class="btn btn-outline-primary btn-block mb-2">Ver Detalle</a>
+        <a href="{{ v.video_url }}" target="_blank" class="btn btn-primary btn-block">Reproducir</a>
+      </div>
+
+      <div class="card-footer bg-white">
+        {% if v.average_rating %}
+          <span class="rating-sm">{{ v.average_rating }} ★</span>
+          <small class="text-muted"> ({{ v.ratings.count }})</small>
+        {% else %}
+          <small class="text-muted">Sin calificaciones</small>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <p class="text-center text-muted">No hay videos disponibles. Agrega uno nuevo.</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
